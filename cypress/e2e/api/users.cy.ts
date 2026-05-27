@@ -5,6 +5,7 @@
  * Uses cy.apiRequest (custom command) which reads API_BASE_URL from env.
  * No hard waits — all assertions happen on resolved responses.
  */
+import { assertSchema } from '../../support/schema-validators';
 
 interface ReqResUser {
   id: number;
@@ -49,9 +50,15 @@ describe('Users API — GET', () => {
         expect(response.body.per_page).to.be.a('number');
         expect(response.body.total).to.be.a('number');
 
-        // Validate the schema of the first user object
+        // Validate the schema of the first user object via shared helper
         const firstUser = response.body.data[0];
-        expect(firstUser).to.have.all.keys('id', 'email', 'first_name', 'last_name', 'avatar');
+        assertSchema(firstUser as unknown as Record<string, unknown>, {
+          id: 'number',
+          email: 'string',
+          first_name: 'string',
+          last_name: 'string',
+          avatar: 'string',
+        });
         expect(firstUser.email).to.match(/@/);
       }
     );
