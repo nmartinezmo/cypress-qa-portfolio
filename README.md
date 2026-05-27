@@ -2,7 +2,7 @@
 
 End-to-end + API automation framework in Cypress + TypeScript, with CI, reports, and POM.
 
-[![CI](https://github.com/adminbyoss-afk/cypress-qa-portfolio/actions/workflows/ci.yml/badge.svg)](https://github.com/adminbyoss-afk/cypress-qa-portfolio/actions/workflows/ci.yml)
+[![CI](https://github.com/nicomar9928/cypress-qa-portfolio/actions/workflows/ci.yml/badge.svg)](https://github.com/nicomar9928/cypress-qa-portfolio/actions/workflows/ci.yml)
 
 ---
 
