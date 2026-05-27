@@ -14,8 +14,8 @@
     "cy:ui": "cypress run --spec 'cypress/e2e/ui/**/*.cy.ts'",
     "cy:api": "cypress run --spec 'cypress/e2e/api/**/*.cy.ts'",
     "api:newman": "newman run postman/portfolio.postman_collection.json --environment postman/envs/reqres.postman_environment.json --reporters cli,htmlextra --reporter-htmlextra-export reports/newman/report.html",
-    "lint": "eslint . --ext .ts,.cjs",
-    "lint:fix": "eslint . --ext .ts,.cjs --fix",
+    "lint": "eslint .",
+    "lint:fix": "eslint . --fix",
     "typecheck": "tsc --noEmit",
     "format": "prettier --write .",
     "report": "mochawesome-merge reports/mochawesome/*.json -o reports/mochawesome/merged.json && marge reports/mochawesome/merged.json --reportDir reports/mochawesome --inline",
@@ -30,7 +30,7 @@
   },
   "repository": {
     "type": "git",
-    "url": "git+https://github.com/adminbyoss-afk/cypress-qa-portfolio.git"
+    "url": "git+https://github.com/nicomar9928/cypress-qa-portfolio.git"
   },
   "keywords": [
     "cypress",
@@ -42,9 +42,9 @@
   "author": "Nicolás Martínez <nicomar9928@gmail.com>",
   "license": "MIT",
   "bugs": {
-    "url": "https://github.com/adminbyoss-afk/cypress-qa-portfolio/issues"
+    "url": "https://github.com/nicomar9928/cypress-qa-portfolio/issues"
   },
-  "homepage": "https://github.com/adminbyoss-afk/cypress-qa-portfolio#readme",
+  "homepage": "https://github.com/nicomar9928/cypress-qa-portfolio#readme",
   "devDependencies": {
     "@types/node": "^25.9.1",
     "@typescript-eslint/eslint-plugin": "^8.60.0",
