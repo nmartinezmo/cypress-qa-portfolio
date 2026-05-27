@@ -1,0 +1,65 @@
+{
+  "name": "cypress-qa-portfolio",
+  "version": "1.0.0",
+  "description": "End-to-end + API automation framework in Cypress + TypeScript, with CI, reports, and POM.",
+  "private": true,
+  "type": "module",
+  "engines": {
+    "node": ">=20"
+  },
+  "scripts": {
+    "cy:open": "cypress open",
+    "pretest": "npm run typecheck",
+    "test": "cypress run",
+    "cy:ui": "cypress run --spec 'cypress/e2e/ui/**/*.cy.ts'",
+    "cy:api": "cypress run --spec 'cypress/e2e/api/**/*.cy.ts'",
+    "api:newman": "newman run postman/portfolio.postman_collection.json --environment postman/envs/reqres.postman_environment.json --reporters cli,htmlextra --reporter-htmlextra-export reports/newman/report.html",
+    "lint": "eslint . --ext .ts,.cjs",
+    "lint:fix": "eslint . --ext .ts,.cjs --fix",
+    "typecheck": "tsc --noEmit",
+    "format": "prettier --write .",
+    "report": "mochawesome-merge reports/mochawesome/*.json -o reports/mochawesome/merged.json && marge reports/mochawesome/merged.json --reportDir reports/mochawesome --inline",
+    "prepare": "husky"
+  },
+  "lint-staged": {
+    "*.{ts,cjs}": [
+      "eslint --fix",
+      "prettier --write"
+    ],
+    "*.{json,md,yml}": "prettier --write"
+  },
+  "repository": {
+    "type": "git",
+    "url": "git+https://github.com/adminbyoss-afk/cypress-qa-portfolio.git"
+  },
+  "keywords": [
+    "cypress",
+    "typescript",
+    "qa",
+    "automation",
+    "e2e"
+  ],
+  "author": "Nicolás Martínez <nicomar9928@gmail.com>",
+  "license": "MIT",
+  "bugs": {
+    "url": "https://github.com/adminbyoss-afk/cypress-qa-portfolio/issues"
+  },
+  "homepage": "https://github.com/adminbyoss-afk/cypress-qa-portfolio#readme",
+  "devDependencies": {
+    "@types/node": "^25.9.1",
+    "@typescript-eslint/eslint-plugin": "^8.60.0",
+    "@typescript-eslint/parser": "^8.60.0",
+    "cypress": "^15.16.0",
+    "eslint": "^10.4.0",
+    "eslint-plugin-cypress": "^6.4.1",
+    "husky": "^9.1.7",
+    "lint-staged": "^17.0.5",
+    "mochawesome": "^7.1.4",
+    "mochawesome-merge": "^5.1.1",
+    "mochawesome-report-generator": "^6.3.2",
+    "newman": "^6.2.2",
+    "newman-reporter-htmlextra": "^1.23.1",
+    "prettier": "^3.8.3",
+    "typescript": "^6.0.3"
+  }
+}
