@@ -3,7 +3,7 @@ import { defineConfig } from 'cypress';
 export default defineConfig({
   e2e: {
     // Base URLs are overridden per spec via Cypress.config() or env vars when needed.
-    // SauceDemo (UI) and ReqRes (API) are the default targets.
+    // SauceDemo (UI) and JSONPlaceholder (API) are the default targets.
     baseUrl: 'https://www.saucedemo.com',
     supportFile: 'cypress/support/e2e.ts',
     specPattern: 'cypress/e2e/**/*.cy.ts',
@@ -33,8 +33,8 @@ export default defineConfig({
   },
 
   env: {
-    // Override at runtime: CYPRESS_API_BASE_URL=https://reqres.in/api npx cypress run
-    API_BASE_URL: 'https://reqres.in/api',
+    // All API specs target JSONPlaceholder (free, stable, no auth required).
+    // ReqRes.in was dropped in May 2026 when they introduced mandatory paid API keys.
     JSONPLACEHOLDER_URL: 'https://jsonplaceholder.typicode.com',
   },
 });

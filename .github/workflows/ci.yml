@@ -42,10 +42,11 @@ jobs:
       - name: Lint
         run: npm run lint
 
+      - name: Create report directories
+        run: mkdir -p reports/mochawesome
+
       - name: Run Cypress — ${{ matrix.suite }}
         run: npm run cy:${{ matrix.suite }}
-        env:
-          CYPRESS_API_BASE_URL: https://reqres.in/api
 
       - name: Upload mochawesome report
         if: always()
@@ -74,6 +75,9 @@ jobs:
 
       - name: Install dependencies
         run: npm ci
+
+      - name: Create report directories
+        run: mkdir -p reports/newman reports/mochawesome
 
       - name: Run Newman
         run: npm run api:newman

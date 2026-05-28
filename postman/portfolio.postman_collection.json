@@ -2,13 +2,13 @@
   "info": {
     "_postman_id": "cypress-qa-portfolio-collection",
     "name": "Cypress QA Portfolio — API Collection",
-    "description": "Covers ReqRes.in CRUD endpoints to complement the Cypress API specs.\nRun via: npm run api:newman",
+    "description": "Covers JSONPlaceholder REST endpoints to demonstrate API testing patterns.\n\nNote: Originally targeted ReqRes.in, which introduced mandatory paid API keys.\nSwitched to JSONPlaceholder — free, stable, no auth required.\n\nRun via: npm run api:newman",
     "schema": "https://schema.getpostman.com/json/collection/v2.1.0/collection.json"
   },
   "variable": [
     {
       "key": "baseUrl",
-      "value": "https://reqres.in/api",
+      "value": "https://jsonplaceholder.typicode.com",
       "type": "string"
     }
   ],
@@ -17,7 +17,7 @@
       "name": "Users",
       "item": [
         {
-          "name": "GET /users — list page 1",
+          "name": "GET /users — list all users",
           "event": [
             {
               "listen": "test",
@@ -27,19 +27,21 @@
                   "",
                   "const body = pm.response.json();",
                   "",
-                  "pm.test('Response has data array', () => {",
-                  "  pm.expect(body.data).to.be.an('array').and.have.length.above(0);",
+                  "pm.test('Response is a non-empty array', () => {",
+                  "  pm.expect(body).to.be.an('array').and.have.length.above(0);",
                   "});",
                   "",
                   "pm.test('First user has required fields', () => {",
-                  "  const user = body.data[0];",
-                  "  pm.expect(user).to.have.all.keys('id','email','first_name','last_name','avatar');",
+                  "  const user = body[0];",
+                  "  pm.expect(user).to.have.all.keys('id','name','username','email','address','phone','website','company');",
                   "});",
                   "",
-                  "pm.test('Page is 1', () => pm.expect(body.page).to.equal(1));",
+                  "pm.test('Email is a valid string', () => {",
+                  "  pm.expect(body[0].email).to.be.a('string').and.include('@');",
+                  "});",
                   "",
                   "// Store first user id for downstream requests",
-                  "pm.environment.set('userId', body.data[0].id);"
+                  "pm.environment.set('userId', body[0].id);"
                 ],
                 "type": "text/javascript"
               }
@@ -49,10 +51,9 @@
             "method": "GET",
             "header": [],
             "url": {
-              "raw": "{{baseUrl}}/users?page=1",
+              "raw": "{{baseUrl}}/users",
               "host": ["{{baseUrl}}"],
-              "path": ["users"],
-              "query": [{ "key": "page", "value": "1" }]
+              "path": ["users"]
             }
           }
         },
@@ -68,11 +69,11 @@
                   "const body = pm.response.json();",
                   "",
                   "pm.test('Returns correct user id', () => {",
-                  "  pm.expect(body.data.id).to.equal(2);",
+                  "  pm.expect(body.id).to.equal(1);",
                   "});",
                   "",
                   "pm.test('Email is a valid string', () => {",
-                  "  pm.expect(body.data.email).to.be.a('string').and.include('@');",
+                  "  pm.expect(body.email).to.be.a('string').and.include('@');",
                   "});"
                 ],
                 "type": "text/javascript"
@@ -83,9 +84,9 @@
             "method": "GET",
             "header": [],
             "url": {
-              "raw": "{{baseUrl}}/users/2",
+              "raw": "{{baseUrl}}/users/1",
               "host": ["{{baseUrl}}"],
-              "path": ["users", "2"]
+              "path": ["users", "1"]
             }
           }
         },
@@ -95,13 +96,7 @@
             {
               "listen": "test",
               "script": {
-                "exec": [
-                  "pm.test('Status is 404', () => pm.response.to.have.status(404));",
-                  "",
-                  "pm.test('Body is empty object', () => {",
-                  "  pm.expect(pm.response.json()).to.deep.equal({});",
-                  "});"
-                ],
+                "exec": ["pm.test('Status is 404', () => pm.response.to.have.status(404));"],
                 "type": "text/javascript"
               }
             }
@@ -129,9 +124,8 @@
                   "",
                   "pm.test('Response contains created resource', () => {",
                   "  pm.expect(body.name).to.equal('Nicolás Martínez');",
-                  "  pm.expect(body.job).to.equal('QA Automation Engineer');",
-                  "  pm.expect(body.id).to.be.a('string');",
-                  "  pm.expect(body.createdAt).to.be.a('string');",
+                  "  pm.expect(body.email).to.equal('nicomar9928@gmail.com');",
+                  "  pm.expect(body.id).to.be.a('number');",
                   "});"
                 ],
                 "type": "text/javascript"
@@ -143,7 +137,7 @@
             "header": [{ "key": "Content-Type", "value": "application/json" }],
             "body": {
               "mode": "raw",
-              "raw": "{\n  \"name\": \"Nicolás Martínez\",\n  \"job\": \"QA Automation Engineer\"\n}"
+              "raw": "{\n  \"name\": \"Nicolás Martínez\",\n  \"username\": \"nicomar9928\",\n  \"email\": \"nicomar9928@gmail.com\"\n}"
             },
             "url": {
               "raw": "{{baseUrl}}/users",
@@ -165,8 +159,7 @@
                   "",
                   "pm.test('Updated fields are returned', () => {",
                   "  pm.expect(body.name).to.equal('Nicolás Martínez');",
-                  "  pm.expect(body.job).to.equal('Senior QA Engineer');",
-                  "  pm.expect(body.updatedAt).to.be.a('string');",
+                  "  pm.expect(body.id).to.equal(1);",
                   "});"
                 ],
                 "type": "text/javascript"
@@ -178,12 +171,12 @@
             "header": [{ "key": "Content-Type", "value": "application/json" }],
             "body": {
               "mode": "raw",
-              "raw": "{\n  \"name\": \"Nicolás Martínez\",\n  \"job\": \"Senior QA Engineer\"\n}"
+              "raw": "{\n  \"id\": 1,\n  \"name\": \"Nicolás Martínez\",\n  \"username\": \"nicomar9928\",\n  \"email\": \"nicomar9928@gmail.com\"\n}"
             },
             "url": {
-              "raw": "{{baseUrl}}/users/2",
+              "raw": "{{baseUrl}}/users/1",
               "host": ["{{baseUrl}}"],
-              "path": ["users", "2"]
+              "path": ["users", "1"]
             }
           }
         },
@@ -193,7 +186,7 @@
             {
               "listen": "test",
               "script": {
-                "exec": ["pm.test('Status is 204', () => pm.response.to.have.status(204));"],
+                "exec": ["pm.test('Status is 200', () => pm.response.to.have.status(200));"],
                 "type": "text/javascript"
               }
             }
@@ -202,19 +195,19 @@
             "method": "DELETE",
             "header": [],
             "url": {
-              "raw": "{{baseUrl}}/users/2",
+              "raw": "{{baseUrl}}/users/1",
               "host": ["{{baseUrl}}"],
-              "path": ["users", "2"]
+              "path": ["users", "1"]
             }
           }
         }
       ]
     },
     {
-      "name": "Auth",
+      "name": "Posts",
       "item": [
         {
-          "name": "POST /login — successful",
+          "name": "GET /posts — list all posts",
           "event": [
             {
               "listen": "test",
@@ -222,8 +215,15 @@
                 "exec": [
                   "pm.test('Status is 200', () => pm.response.to.have.status(200));",
                   "",
-                  "pm.test('Returns a token', () => {",
-                  "  pm.expect(pm.response.json().token).to.be.a('string').and.not.be.empty;",
+                  "const body = pm.response.json();",
+                  "",
+                  "pm.test('Response has 100 posts', () => {",
+                  "  pm.expect(body).to.be.an('array').and.have.lengthOf(100);",
+                  "});",
+                  "",
+                  "pm.test('First post has required fields', () => {",
+                  "  const post = body[0];",
+                  "  pm.expect(post).to.have.all.keys('userId','id','title','body');",
                   "});"
                 ],
                 "type": "text/javascript"
@@ -231,30 +231,30 @@
             }
           ],
           "request": {
-            "method": "POST",
-            "header": [{ "key": "Content-Type", "value": "application/json" }],
-            "body": {
-              "mode": "raw",
-              "raw": "{\n  \"email\": \"eve.holt@reqres.in\",\n  \"password\": \"cityslicka\"\n}"
-            },
+            "method": "GET",
+            "header": [],
             "url": {
-              "raw": "{{baseUrl}}/login",
+              "raw": "{{baseUrl}}/posts",
               "host": ["{{baseUrl}}"],
-              "path": ["login"]
+              "path": ["posts"]
             }
           }
         },
         {
-          "name": "POST /login — missing password (400)",
+          "name": "POST /posts — create",
           "event": [
             {
               "listen": "test",
               "script": {
                 "exec": [
-                  "pm.test('Status is 400', () => pm.response.to.have.status(400));",
+                  "pm.test('Status is 201', () => pm.response.to.have.status(201));",
                   "",
-                  "pm.test('Error message is present', () => {",
-                  "  pm.expect(pm.response.json().error).to.be.a('string').and.not.be.empty;",
+                  "const body = pm.response.json();",
+                  "",
+                  "pm.test('Response contains the created post', () => {",
+                  "  pm.expect(body.title).to.equal('Portfolio test post');",
+                  "  pm.expect(body.userId).to.equal(1);",
+                  "  pm.expect(body.id).to.be.a('number');",
                   "});"
                 ],
                 "type": "text/javascript"
@@ -266,12 +266,12 @@
             "header": [{ "key": "Content-Type", "value": "application/json" }],
             "body": {
               "mode": "raw",
-              "raw": "{\n  \"email\": \"peter@klaven.com\"\n}"
+              "raw": "{\n  \"title\": \"Portfolio test post\",\n  \"body\": \"Automated by Newman + Cypress\",\n  \"userId\": 1\n}"
             },
             "url": {
-              "raw": "{{baseUrl}}/login",
+              "raw": "{{baseUrl}}/posts",
               "host": ["{{baseUrl}}"],
-              "path": ["login"]
+              "path": ["posts"]
             }
           }
         }
