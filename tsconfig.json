@@ -10,7 +10,7 @@
     "forceConsistentCasingInFileNames": true,
     "noEmit": true,
     "types": ["cypress", "node"],
-    "ignoreDeprecations": "5.0"
+    "ignoreDeprecations": "6.0"
   },
   "include": ["cypress/**/*.ts", "cypress.config.ts"],
   "exclude": ["node_modules"]
