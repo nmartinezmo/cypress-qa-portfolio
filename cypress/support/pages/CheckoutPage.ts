@@ -26,9 +26,12 @@ export class CheckoutPage {
    * @param info - Customer first name, last name, and zip/postal code.
    */
   fillCustomerInfo(info: CustomerInfo): void {
-    cy.get(CheckoutSelectors.firstNameInput).clear().type(info.firstName);
-    cy.get(CheckoutSelectors.lastNameInput).clear().type(info.lastName);
-    cy.get(CheckoutSelectors.postalCodeInput).clear().type(info.zipCode);
+    cy.get(CheckoutSelectors.firstNameInput).clear();
+    if (info.firstName) cy.get(CheckoutSelectors.firstNameInput).type(info.firstName);
+    cy.get(CheckoutSelectors.lastNameInput).clear();
+    if (info.lastName) cy.get(CheckoutSelectors.lastNameInput).type(info.lastName);
+    cy.get(CheckoutSelectors.postalCodeInput).clear();
+    if (info.zipCode) cy.get(CheckoutSelectors.postalCodeInput).type(info.zipCode);
     cy.get(CheckoutSelectors.continueButton).click();
   }
 
