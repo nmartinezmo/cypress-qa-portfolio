@@ -30,13 +30,11 @@ interface ApiRequestOptions {
  * cy.loginAs({ username: 'standard_user', password: 'secret_sauce' });
  */
 Cypress.Commands.add('loginAs', (user: UserCredentials) => {
-  cy.session([user.username], () => {
-    cy.visit('/');
-    cy.get('[data-test="username"]').type(user.username);
-    cy.get('[data-test="password"]').type(user.password);
-    cy.get('[data-test="login-button"]').click();
-    cy.url().should('include', '/inventory.html');
-  });
+  cy.visit('/');
+  cy.get('[data-test="username"]').type(user.username);
+  cy.get('[data-test="password"]').type(user.password);
+  cy.get('[data-test="login-button"]').click();
+  cy.url().should('include', '/inventory.html');
 });
 
 // ---------------------------------------------------------------------------

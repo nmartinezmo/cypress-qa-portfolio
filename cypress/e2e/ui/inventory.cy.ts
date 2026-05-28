@@ -13,7 +13,6 @@ describe('Inventory — product listing', () => {
     cy.fixture('users').then((users: { standard: { username: string; password: string } }) => {
       cy.loginAs(users.standard);
     });
-    cy.visit('/inventory.html');
   });
 
   it('should display the Products title when logged in', () => {
@@ -44,7 +43,6 @@ describe('Inventory — sorting', () => {
     cy.fixture('users').then((users: { standard: { username: string; password: string } }) => {
       cy.loginAs(users.standard);
     });
-    cy.visit('/inventory.html');
   });
 
   it('should sort items from low to high price when lohi is selected', () => {

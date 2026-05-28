@@ -22,7 +22,6 @@ describe('Checkout — happy path', () => {
     cy.fixture('users').then((users: { standard: { username: string; password: string } }) => {
       cy.loginAs(users.standard);
     });
-    cy.visit('/inventory.html');
   });
 
   it('should complete purchase when valid item and customer info are provided', () => {
@@ -54,7 +53,6 @@ describe('Checkout — validation errors', () => {
     cy.fixture('users').then((users: { standard: { username: string; password: string } }) => {
       cy.loginAs(users.standard);
     });
-    cy.visit('/inventory.html');
     inventoryPage.addItemToCart('sauce-labs-backpack');
     inventoryPage.goToCart();
     checkoutPage.proceedToCheckout();
