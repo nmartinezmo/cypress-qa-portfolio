@@ -41,7 +41,9 @@ Cypress.Commands.add('loginAs', (user: UserCredentials) => {
     },
     {
       validate() {
-        cy.visit('/inventory.html');
+        // Visit root: SauceDemo redirects authenticated users to /inventory.html.
+        // Visiting /inventory.html directly can return 404 without going through routing.
+        cy.visit('/');
         cy.url().should('include', '/inventory.html');
       },
     }

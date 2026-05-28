@@ -16,8 +16,10 @@ export class LoginPage {
    * @param password - The SauceDemo password.
    */
   loginWith(username: string, password: string): void {
-    cy.get(LoginSelectors.usernameInput).clear().type(username);
-    cy.get(LoginSelectors.passwordInput).clear().type(password);
+    cy.get(LoginSelectors.usernameInput).clear();
+    if (username) cy.get(LoginSelectors.usernameInput).type(username);
+    cy.get(LoginSelectors.passwordInput).clear();
+    if (password) cy.get(LoginSelectors.passwordInput).type(password);
     cy.get(LoginSelectors.loginButton).click();
   }
 
